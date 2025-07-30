@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service-deployment
+  labels:
+    app: product-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: product-service
+  template:
+    metadata:
+      labels:
+        name: product-service
+    spec:
+      containers:
+        - name: product-service
+          image: africkinbear/product-service:latest
+          ports:
+            - name: tcp
+              protocol: TCP
+              containerPort: 8081
