@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-ui-deployment
+  labels:
+    app: microservice-ui
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: microservice-ui
+  template:
+    metadata:
+      labels:
+        app: microservice-ui 
+    spec:
+      containers:
+        - name: microservice-ui
+          image: africkinbear/microservice-ui:latest
+          ports:
+            - containerPort: 3000

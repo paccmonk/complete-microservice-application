@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-registry-deployment
+  labels:
+    app: service-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: service-registry
+  template:
+    metadata:
+      labels:
+        name: service-registry
+    spec:
+      containers:
+        - name: service-registry
+          image: africkinbear/service-registry:latest
+          ports:
+            - containerPort: 8761
