@@ -4,10 +4,10 @@ metadata:
   name: mysql-st
 spec:
   serviceName: mysql-svc
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
-  replicas: 1
   template:
     metadata:
       labels:
@@ -18,24 +18,28 @@ spec:
         image: mysql:latest
         ports:
         - containerPort: 3306
-          name: TCP
+          name: mysql
         volumeMounts:
-          - name: mysql-data
-            mountPath: /var/lib/mysql
-    volumes:
-      - name: mysql-data
-        persistentVolumeClaim:
-          claimName: mysql-pvc
-
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: mysql-ebs
+      resources:
+        requests:
+          storage: 10Gi
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
   name: mysql-svc
 spec:
-  selector:
-    app: mysql
   ports:
   - port: 3306
     targetPort: 3306
+  selector:
+    app: mysql
+  clusterIP: None  # Headless service is required for StatefulSet
