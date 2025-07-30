@@ -12,7 +12,7 @@ spec:
         app: rabbitmq
     spec:
       containers:
-      - name: TCP
+      - name: rabbitmq
         image: rabbitmq:latest
         ports:
         - containerPort: 5672
